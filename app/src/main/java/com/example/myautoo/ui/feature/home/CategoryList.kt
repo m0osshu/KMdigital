@@ -19,42 +19,43 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.myautoo.data.model.CategoryModel
+
 @Composable
 fun CategoryList(
     categories: List<CategoryModel>,
     modifier: Modifier = Modifier
-){
+) {
     LazyRow(
         modifier = modifier,
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
-        items (categories){category->
+        items(categories) { category ->
             Column(
                 modifier = Modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(modifier= Modifier
-                    .size(55.dp)
-                    .background(
-                        color = Color.Black,
-                        shape = CircleShape
-                    ),
+                Box(
+                    modifier = Modifier
+                        .size(55.dp)
+                        .background(
+                            color = Color.Black,
+                            shape = CircleShape
+                        ),
                     contentAlignment = Alignment.Center
-                ){
-                    Image(painter = rememberAsyncImagePainter(category.picUrl),
+                ) {
+                    Image(
+                        painter = rememberAsyncImagePainter(category.picUrl),
                         contentDescription = null,
                         modifier = Modifier.size(40.dp)
-                        )
+                    )
                 }
                 Text(
                     text = category.title,
                     color = Color.Black,
                     fontSize = 12.sp,
-                    modifier= Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp)
                 )
-
             }
-
         }
     }
 }

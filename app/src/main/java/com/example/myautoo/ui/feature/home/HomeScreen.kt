@@ -9,91 +9,127 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.example.myautoo.data.model.CarModel
 import com.example.myautoo.ui.viewModel.CarViewModel
 import com.example.myautoo.ui.viewModel.CategoryViewModel
 
 @Composable
-fun MainScreen(onCarClick:(CarModel)-> Unit,
-               carViewModel: CarViewModel,
-               categoryViewModel: CategoryViewModel){
-
+fun MainScreen(
+    onProfileClick: () -> Unit,
+    onCarClick: (CarModel) -> Unit,
+    carViewModel: CarViewModel,
+    categoryViewModel: CategoryViewModel
+) {
     val categories by categoryViewModel.categories
-    val  isLoadingCategory by categoryViewModel.isLoading
+    val isLoadingCategory by categoryViewModel.isLoading
     val cars by carViewModel.cars
     val isLoadingCars by carViewModel.isLoading
 
+    LaunchedEffect(cars) {
+        println("🔥 DEBUG: Autos cargados: ${cars.size}")
+    }
 
-    Box(modifier = Modifier.fillMaxSize()){
-        LazyColumn (
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(color = 0xffb0b0b0))
-        ){
-            item{
+                .background(Color(0xffb0b0b0))
+        ) {
+            item {
                 HeaderSection(username = "pirula", onBellClick = {})
             }
             item {
                 SearchSection()
             }
             item {
-                if (isLoadingCategory){
-                Box(modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center){
-                    CircularProgressIndicator()
-                }
-                }else{
+                if (isLoadingCategory) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else {
                     CategoryList(
                         categories = categories,
-                        modifier = Modifier // o el modificador que necesites
+                        modifier = Modifier
                     )
                 }
             }
             item {
                 Spacer(Modifier.height(16.dp))
-                Column(modifier = Modifier
-                    .background(
-                        Color.White,
-                        RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
-                    )
-                ){
-                    Row(modifier = Modifier
-                        .padding(top = 24.dp, start = 16.dp, end = 16.dp)
-                        .fillMaxWidth(),
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            Color.White,
+                            RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
+                        )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(top = 24.dp, start = 16.dp, end = 16.dp)
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text("mas vendidos", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-                        Text("ver todos", fontSize = 14.sp, )
+                        Text("ver todos", fontSize = 14.sp)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    if(isLoadingCars){
-                        Box(modifier = Modifier.fillMaxWidth(),
+
+                    if (isLoadingCars) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.Center
-                            ){
+                        ) {
                             CircularProgressIndicator()
                         }
-                    }else{
-                        PopularList(cars, onCarClick = onCarClick)
+                    } else if (cars.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "No hay autos disponibles",
+                                color = Color.Gray
+                            )
+                        }
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(800.dp)
+                        ) {
+                            PopularList(cars, onCarClick = onCarClick)
+                        }
                     }
-
                 }
             }
         }
+        BottomNavBar(
+            onProfileClick = onProfileClick,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp, vertical = 24.dp)
+        )
     }
 }
-
