@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class CarModel(
     val title: String = "",
     val description: String = "",
-    val TotalCapacity: String = "",
-    val HighestSpeed: String = "",
-    val EngineOutput: String = "",
+    val totalCapacity: String = "", // ← debe coincidir con Firebase
+    val highestSpeed: String = "",  // ← debe coincidir con Firebase
+    val engineOutput: String = "",  // ← debe coincidir con Firebase
     val picUrl: String = "",
     val price: Double = 0.0,
     val rating: Double = 0.0
