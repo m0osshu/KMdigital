@@ -5,7 +5,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.myautoo.ui.feature.auth.LoginScreen
+import com.example.myautoo.ui.feature.auth.ProfileScreen
+import com.example.myautoo.ui.feature.auth.RegisterScreen
 import com.example.myautoo.ui.feature.home.MainScreen
+import com.example.myautoo.ui.viewModel.AuthViewModel
 import com.example.myautoo.ui.viewModel.CarViewModel
 import com.example.myautoo.ui.viewModel.CategoryViewModel
 
@@ -14,9 +18,16 @@ fun AppNavGraph() {
     val navController = rememberNavController()
     val categoryViewModel: CategoryViewModel = viewModel()
     val carViewModel: CarViewModel = viewModel()
+    val authViewModel: AuthViewModel = viewModel()
 
-    NavHost(navController = navController, startDestination = Screens.MAIN) {
-        composable(Screens.MAIN) {
+    NavHost(navController = navController, startDestination = Screens.HOME) {
+        composable(Screens.LOGIN) {
+            LoginScreen(navController = navController, authViewModel = authViewModel)
+        }
+        composable(Screens.REGISTER) {
+            RegisterScreen(navController = navController, authViewModel = authViewModel)
+        }
+        composable(Screens.HOME) {
             MainScreen(
                 onProfileClick = { navController.navigate(Screens.PROFILE) },
                 onCarClick = { navController.navigate(Screens.DETAIL) },
@@ -25,7 +36,7 @@ fun AppNavGraph() {
             )
         }
         composable(Screens.PROFILE) {
-            // ProfileScreen(onBackClick = { navController.popBackStack() })
+             ProfileScreen(navController = navController, authViewModel = authViewModel)
         }
         composable(Screens.DETAIL) {
             // DetailScreen()
@@ -34,7 +45,9 @@ fun AppNavGraph() {
 }
 
 object Screens {
-    const val MAIN = "main"
+    const val LOGIN = "login"
+    const val REGISTER = "register"
+    const val HOME = "home"
     const val PROFILE = "profile"
     const val DETAIL = "detail"
 }

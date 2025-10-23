@@ -38,6 +38,7 @@ fun MainScreen(
     val isLoadingCategory by categoryViewModel.isLoading
     val cars by carViewModel.cars
     val isLoadingCars by carViewModel.isLoading
+    val error by carViewModel.error
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -52,7 +53,19 @@ fun MainScreen(
                 SearchSection()
             }
             item {
-                if (isLoadingCategory) {
+                if (error != null) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Error: $error",
+                            color = Color.Red
+                        )
+                    }
+                } else if (isLoadingCars) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
