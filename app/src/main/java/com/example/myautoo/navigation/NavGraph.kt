@@ -5,9 +5,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.myautoo.data.model.CarModel
 import com.example.myautoo.ui.feature.auth.LoginScreen
 import com.example.myautoo.ui.feature.auth.ProfileScreen
 import com.example.myautoo.ui.feature.auth.RegisterScreen
+import com.example.myautoo.ui.feature.detail.DetailScreen
 import com.example.myautoo.ui.feature.home.MainScreen
 import com.example.myautoo.ui.viewModel.AuthViewModel
 import com.example.myautoo.ui.viewModel.CarViewModel
@@ -30,7 +32,9 @@ fun AppNavGraph() {
         composable(Screens.HOME) {
             MainScreen(
                 onProfileClick = { navController.navigate(Screens.PROFILE) },
-                onCarClick = { navController.navigate(Screens.DETAIL) },
+                onCarClick = { car ->
+                    navController.currentBackStackEntry?.savedStateHandle?.set("car", car)
+                    navController.navigate(Screens.DETAIL) },
                 carViewModel = carViewModel,
                 categoryViewModel = categoryViewModel
             )
@@ -39,7 +43,11 @@ fun AppNavGraph() {
              ProfileScreen(navController = navController, authViewModel = authViewModel)
         }
         composable(Screens.DETAIL) {
-            // DetailScreen()
+            val car= navController.previousBackStackEntry?.savedStateHandle?.get<CarModel>("car")
+            if (car!= null){
+                DetailScreen(car = car, onBack = { navController.popBackStack() })
+            }
+
         }
     }
 }

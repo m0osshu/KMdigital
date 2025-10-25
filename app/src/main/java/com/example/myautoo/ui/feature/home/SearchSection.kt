@@ -63,7 +63,7 @@ fun SearchSection() {
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(Color.Black, CircleShape)
+                .background(Color.White, CircleShape)
                 .constrainAs(iconBox) {
                     end.linkTo(parent.end)
                     top.linkTo(parent.top)

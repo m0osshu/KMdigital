@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -47,26 +48,26 @@ fun BottomNavBar(
                 Icon(
                     painter = painterResource(R.drawable.btn_1),
                     contentDescription = "Botón 1",
-                    tint = Color.White
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.btn_2),
-                    contentDescription = "Botón 2",
-                    tint = Color.White
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
                 )
 
                 Icon(
                     painter = painterResource(R.drawable.btn_3),
                     contentDescription = "Botón 3",
-                    tint = Color.White
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
                 )
 
-                IconButton(onClick = onProfileClick) {
+                IconButton(
+                    onClick = onProfileClick,
+                    modifier = Modifier.size(24.dp)
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.btn_4),
                         contentDescription = "Perfil",
-                        tint = Color.White
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }

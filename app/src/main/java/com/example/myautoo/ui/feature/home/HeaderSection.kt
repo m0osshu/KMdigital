@@ -48,16 +48,7 @@ fun HeaderSection(username: String = "test", onBellClick: () -> Unit = {}) {
             Text(text = "Text", fontSize = 14.sp )
             Text(text = username, fontSize = 16.sp, fontWeight = FontWeight.Bold)
         }
-        Image(painter = painterResource(R.drawable.bell),
-            contentDescription = null,
-            modifier = Modifier
-                .clickable{onBellClick()}
-                .constrainAs(bellIcon){
-                    end.linkTo(parent.end)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
 
-                })
 
     }
 }
