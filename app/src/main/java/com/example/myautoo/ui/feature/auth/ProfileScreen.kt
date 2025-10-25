@@ -1,5 +1,6 @@
 package com.example.myautoo.ui.feature.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,7 +30,8 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
             TopBar(
                 title = "Perfil",
                 backIconRes = R.drawable.back2,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                modifier = Modifier.statusBarsPadding()
             )
         }
     ) { paddingValues ->
@@ -37,28 +40,40 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(Color.White)
-                .padding(24.dp),
-            color = Color.White
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 if (user != null) {
+                    Image(
+                        painter = painterResource(R.drawable.profile),
+                        contentDescription = "Foto de perfil",
+                        modifier = Modifier.size(120.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
                     Text(
                         text = "Has iniciado sesión como:",
                         fontSize = 18.sp,
                         color = Color.DarkGray
                     )
+
                     Spacer(modifier = Modifier.height(8.dp))
+
                     Text(
                         text = user?.email ?: "Email no disponible",
                         fontSize = 20.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold
                     )
+
                     Spacer(modifier = Modifier.height(32.dp))
+
                     Button(
                         onClick = {
                             authViewModel.signOut()
@@ -84,12 +99,23 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
                         )
                     }
                 } else {
+                    Image(
+                        painter = painterResource(R.drawable.profile),
+                        contentDescription = "Perfil no logueado",
+                        modifier = Modifier.size(100.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
                     Text(
                         text = "No has iniciado sesión.",
-                        fontSize = 18.sp,
-                        color = Color.DarkGray
+                        fontSize = 20.sp,
+                        color = Color.DarkGray,
+                        fontWeight = FontWeight.Bold
                     )
+
                     Spacer(modifier = Modifier.height(16.dp))
+
                     Button(
                         onClick = {
                             navController.navigate(Screens.LOGIN)

@@ -1,55 +1,34 @@
 package com.example.myautoo.ui.feature.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.myautoo.R
 import com.example.myautoo.ui.theme.MyAutooTheme
 
 @Composable
 fun HeaderSection(username: String = "test", onBellClick: () -> Unit = {}) {
-    ConstraintLayout(
+    Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .statusBarsPadding()
-            .padding(16.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        val (profilePic, nameColumn, bellIcon) = createRefs()
-
         Image(
-            painter = painterResource(R.drawable.profile),
-            contentDescription = "Profile picture",
-            modifier = Modifier
-                .size(55.dp)
-                .constrainAs(profilePic) {
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(anchor = parent.bottom)
-                }
+            painter = painterResource(R.drawable.logokmd),
+            contentDescription = "Logo",
+            modifier = Modifier.size(70.dp)
         )
-        Column (modifier = Modifier.constrainAs(nameColumn){
-            start.linkTo(anchor = profilePic.end, margin = 8.dp)
-            top.linkTo(anchor = parent.top)
-            bottom.linkTo(anchor = parent.bottom)
-        }){
-            Text(text = "Text", fontSize = 14.sp )
-            Text(text = username, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-        }
-
-
     }
 }
 
