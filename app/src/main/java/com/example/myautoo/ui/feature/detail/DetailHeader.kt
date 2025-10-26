@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,14 +30,14 @@ fun DetailHeader(
         modifier = modifier
             .fillMaxWidth()
             .height(500.dp)
-            .background(Color.Black)
+            .background(color = Color.Black)
     ) {
         TopBar(
             title = "car Detail",
             backIconRes = R.drawable.back1,
             onBack = onBack,
             onTrailingClick = onFav,
-            titleColorRes = R.color.white,
+            titleColor = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()

@@ -2,9 +2,21 @@ package com.example.myautoo.ui.feature.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myautoo.R
 import com.example.myautoo.navigation.Screens
-import com.example.myautoo.ui.components.TopBar
 import com.example.myautoo.ui.viewModel.AuthViewModel
 
 @Composable
@@ -27,11 +38,10 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
 
     Scaffold(
         topBar = {
-            TopBar(
+            AuthHeader(
                 title = "Perfil",
                 backIconRes = R.drawable.back2,
-                onBack = { navController.popBackStack() },
-                modifier = Modifier.statusBarsPadding()
+                onBack = { navController.popBackStack() }
             )
         }
     ) { paddingValues ->
@@ -39,7 +49,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             Column(
                 modifier = Modifier
@@ -60,7 +70,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
                     Text(
                         text = "Has iniciado sesión como:",
                         fontSize = 18.sp,
-                        color = Color.DarkGray
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -68,7 +78,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
                     Text(
                         text = user?.email ?: "Email no disponible",
                         fontSize = 20.sp,
-                        color = Color.Black,
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontWeight = FontWeight.Bold
                     )
 
@@ -110,7 +120,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
                     Text(
                         text = "No has iniciado sesión.",
                         fontSize = 20.sp,
-                        color = Color.DarkGray,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                         fontWeight = FontWeight.Bold
                     )
 

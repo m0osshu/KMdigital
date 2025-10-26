@@ -11,12 +11,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.example.myautoo.R
 import com.example.myautoo.data.model.CarModel
 import com.example.myautoo.ui.viewModel.CartViewModel
 
@@ -33,7 +32,7 @@ fun DetailScreen(
     Box(
         Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.white))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         DetailHeader(car.picUrl, onBack, onBack)
         Column(
@@ -46,12 +45,7 @@ fun DetailScreen(
             DetailSpecs(car.totalCapacity, car.highestSpeed, car.engineOutput)
             DetailPriceBar(
                 price = car.price,
-                onBuyNow = { // Funcionalidad de Comprar Ahora
-                    cartViewModel.addToCart(car)
-                    Toast.makeText(context, "${car.title} añadido al carrito", Toast.LENGTH_SHORT).show()
-                    onNavigateToCart()
-                },
-                onAddToCart = { // Funcionalidad de Añadir al Carrito
+                onAddToCart = {
                     cartViewModel.addToCart(car)
                     Toast.makeText(context, "${car.title} añadido al carrito", Toast.LENGTH_SHORT).show()
                 }

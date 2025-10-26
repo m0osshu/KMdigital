@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,7 +26,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,16 +36,22 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myautoo.navigation.Screens
 import com.example.myautoo.ui.theme.MyAutooTheme
+import com.example.myautoo.ui.viewModel.AuthViewModel
 import com.example.myautoo.ui.viewModel.CartViewModel
 import java.text.NumberFormat
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
+fun CartScreen(
+    navController: NavController,
+    cartViewModel: CartViewModel,
+    authViewModel: AuthViewModel
+) {
     val cartItems by cartViewModel.cartItems.collectAsState()
     val totalPrice by cartViewModel.totalPrice.collectAsState()
     val context = LocalContext.current
+    val user by authViewModel.user.collectAsState()
 
     Scaffold(
         topBar = {
@@ -74,15 +80,19 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
                     )
                     Button(
                         onClick = {
-                            cartViewModel.clearCart()
-                            Toast.makeText(context, "Compra realizada con éxito", Toast.LENGTH_SHORT).show()
-                            navController.navigate(Screens.HOME) {
-                                popUpTo(Screens.HOME) { inclusive = true }
+                            if (user != null) {
+                                cartViewModel.clearCart()
+                                Toast.makeText(context, "Compra realizada con éxito", Toast.LENGTH_SHORT).show()
+                                navController.navigate(Screens.HOME) {
+                                    popUpTo(Screens.HOME) { inclusive = true }
+                                }
+                            } else {
+                                navController.navigate(Screens.LOGIN)
                             }
                         },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Black,
-                            contentColor = Color.White
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
                         )
                     ) {
                         Text("Comprar")
@@ -133,6 +143,6 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
 @Composable
 fun CartScreenPreview() {
     MyAutooTheme {
-        CartScreen(rememberNavController(), viewModel())
+        CartScreen(rememberNavController(), viewModel(), viewModel())
     }
 }

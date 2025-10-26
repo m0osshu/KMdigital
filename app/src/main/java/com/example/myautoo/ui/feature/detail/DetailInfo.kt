@@ -44,9 +44,7 @@ fun DetailInfo(title: String, rating: Double, description: String){
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Image(painterResource(R.drawable.star), contentDescription = null)
-            Spacer(Modifier.height(16.dp)
-            )
+
         }
         Text(
             text = description,

@@ -53,14 +53,15 @@ fun AppNavGraph() {
                     car = car,
                     onBack = { navController.popBackStack() },
                     onNavigateToCart = { navController.navigate(Screens.CART) },
-                    cartViewModel = cartViewModel // Pasando el ViewModel
+                    cartViewModel = cartViewModel
                 )
             }
         }
         composable(Screens.CART) {
             CartScreen(
                 navController = navController,
-                cartViewModel = cartViewModel // Pasando el ViewModel
+                cartViewModel = cartViewModel,
+                authViewModel = authViewModel // Pasando el AuthViewModel
             )
         }
     }
