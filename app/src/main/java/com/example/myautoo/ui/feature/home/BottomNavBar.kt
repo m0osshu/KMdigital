@@ -23,6 +23,8 @@ import com.example.myautoo.R
 @Composable
 @Preview
 fun BottomNavBar(
+    onHomeClick: () -> Unit = {},
+    onCartClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -42,27 +44,28 @@ fun BottomNavBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                horizontalArrangement = Arrangement.SpaceAround, // Usando SpaceAround para alinear
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.btn_1),
-                    contentDescription = "Botón 1",
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp)
-                )
+                IconButton(onClick = onHomeClick) {
+                    Icon(
+                        painter = painterResource(R.drawable.btn_1),
+                        contentDescription = "Inicio",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
 
-                Icon(
-                    painter = painterResource(R.drawable.btn_3),
-                    contentDescription = "Botón 3",
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp)
-                )
+                IconButton(onClick = onCartClick) {
+                    Icon(
+                        painter = painterResource(R.drawable.btn_3),
+                        contentDescription = "Carrito",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
 
-                IconButton(
-                    onClick = onProfileClick,
-                    modifier = Modifier.size(24.dp)
-                ) {
+                IconButton(onClick = onProfileClick) {
                     Icon(
                         painter = painterResource(R.drawable.btn_4),
                         contentDescription = "Perfil",

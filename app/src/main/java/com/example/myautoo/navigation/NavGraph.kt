@@ -9,10 +9,12 @@ import com.example.myautoo.data.model.CarModel
 import com.example.myautoo.ui.feature.auth.LoginScreen
 import com.example.myautoo.ui.feature.auth.ProfileScreen
 import com.example.myautoo.ui.feature.auth.RegisterScreen
+import com.example.myautoo.ui.feature.cart.CartScreen
 import com.example.myautoo.ui.feature.detail.DetailScreen
 import com.example.myautoo.ui.feature.home.MainScreen
 import com.example.myautoo.ui.viewModel.AuthViewModel
 import com.example.myautoo.ui.viewModel.CarViewModel
+import com.example.myautoo.ui.viewModel.CartViewModel
 import com.example.myautoo.ui.viewModel.CategoryViewModel
 
 @Composable
@@ -21,6 +23,7 @@ fun AppNavGraph() {
     val categoryViewModel: CategoryViewModel = viewModel()
     val carViewModel: CarViewModel = viewModel()
     val authViewModel: AuthViewModel = viewModel()
+    val cartViewModel: CartViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = Screens.HOME) {
         composable(Screens.LOGIN) {
@@ -35,6 +38,7 @@ fun AppNavGraph() {
                 onCarClick = { car ->
                     navController.currentBackStackEntry?.savedStateHandle?.set("car", car)
                     navController.navigate(Screens.DETAIL) },
+                onCartClick = { navController.navigate(Screens.CART) },
                 carViewModel = carViewModel,
                 categoryViewModel = categoryViewModel
             )
@@ -43,11 +47,21 @@ fun AppNavGraph() {
              ProfileScreen(navController = navController, authViewModel = authViewModel)
         }
         composable(Screens.DETAIL) {
-            val car= navController.previousBackStackEntry?.savedStateHandle?.get<CarModel>("car")
-            if (car!= null){
-                DetailScreen(car = car, onBack = { navController.popBackStack() })
+            val car = navController.previousBackStackEntry?.savedStateHandle?.get<CarModel>("car")
+            if (car != null) {
+                DetailScreen(
+                    car = car,
+                    onBack = { navController.popBackStack() },
+                    onNavigateToCart = { navController.navigate(Screens.CART) },
+                    cartViewModel = cartViewModel // Pasando el ViewModel
+                )
             }
-
+        }
+        composable(Screens.CART) {
+            CartScreen(
+                navController = navController,
+                cartViewModel = cartViewModel // Pasando el ViewModel
+            )
         }
     }
 }
@@ -58,4 +72,5 @@ object Screens {
     const val HOME = "home"
     const val PROFILE = "profile"
     const val DETAIL = "detail"
+    const val CART = "cart"
 }

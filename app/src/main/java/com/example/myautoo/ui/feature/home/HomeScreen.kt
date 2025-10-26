@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,12 +32,13 @@ import com.example.myautoo.ui.viewModel.CategoryViewModel
 fun MainScreen(
     onProfileClick: () -> Unit,
     onCarClick: (CarModel) -> Unit,
+    onCartClick: () -> Unit,
     carViewModel: CarViewModel,
     categoryViewModel: CategoryViewModel
 ) {
     val categories by categoryViewModel.categories
     val isLoadingCategory by categoryViewModel.isLoading
-    val cars by carViewModel.cars
+    val cars by carViewModel.cars.collectAsState(initial = emptyList())
     val isLoadingCars by carViewModel.isLoading
     val error by carViewModel.error
 
@@ -47,10 +49,7 @@ fun MainScreen(
                 .background(Color(0xffb0b0b0))
         ) {
             item {
-                HeaderSection(username = "pirula", onBellClick = {})
-            }
-            item {
-                SearchSection()
+                HeaderSection(carViewModel = carViewModel)
             }
             item {
                 if (error != null) {
@@ -98,7 +97,6 @@ fun MainScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text("mas vendidos", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-                        Text("ver todos", fontSize = 14.sp)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -140,6 +138,7 @@ fun MainScreen(
         // BOTTOM NAV BAR - AGREGADO
         BottomNavBar(
             onProfileClick = onProfileClick,
+            onCartClick = onCartClick,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
