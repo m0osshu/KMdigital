@@ -1,6 +1,5 @@
 package com.example.myautoo.ui.feature.auth
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -14,8 +13,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.myautoo.R
 import com.example.myautoo.ui.viewModel.AuthViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
     var email by remember { mutableStateOf("") }
@@ -32,15 +33,20 @@ fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
         }
     }
 
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        color = Color.White
-    ) {
+    Scaffold(
+        topBar = {
+            AuthHeader(
+                title = "Registro",
+                backIconRes = R.drawable.back2,
+                onBack = { navController.popBackStack() }
+            )
+        },
+        containerColor = Color.White
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -136,7 +142,11 @@ fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            TextButton(onClick = { navController.navigate("login") }) {
+            TextButton(onClick = {
+                navController.navigate("login") {
+                    popUpTo("register") { inclusive = true }
+                }
+            }) {
                 Text("¿Ya tienes una cuenta? ", color = Color.DarkGray)
                 Text("Ingresa", color = Color.Black, fontWeight = FontWeight.Bold)
             }

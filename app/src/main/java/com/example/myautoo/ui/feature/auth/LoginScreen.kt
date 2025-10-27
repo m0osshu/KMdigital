@@ -1,6 +1,5 @@
 package com.example.myautoo.ui.feature.auth
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -14,8 +13,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.myautoo.R
 import com.example.myautoo.ui.viewModel.AuthViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
     var email by remember { mutableStateOf("") }
@@ -32,21 +33,26 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
         }
     }
 
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        color = Color.White
-    ) {
+    Scaffold(
+        topBar = {
+            AuthHeader(
+                title = "Login",
+                backIconRes = R.drawable.back2,
+                onBack = { navController.popBackStack() }
+            )
+        },
+        containerColor = Color.White
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Bienvenido",
+                text = "Bienvenido de Nuevo",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 28.sp,
@@ -58,7 +64,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Registrate para continuar",
+                text = "Ingresa para continuar",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = Color.DarkGray,
                     fontSize = 16.sp
@@ -116,7 +122,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                     )
                 ) {
                     Text(
-                        "Login",
+                        "Ingresar",
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.SemiBold
                         )
@@ -136,16 +142,13 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            TextButton(onClick = { navController.navigate("register") }) {
-                Text(
-                    "no tienes una cuenta? ",
-                    color = Color.DarkGray
-                )
-                Text(
-                    "crea una.",
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold
-                )
+            TextButton(onClick = {
+                navController.navigate("register") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }) {
+                Text("¿No tienes una cuenta? " +
+                        "Crea una cuenta", color = Color.DarkGray)
             }
         }
     }
